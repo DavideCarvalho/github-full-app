@@ -1,6 +1,6 @@
 import { Type } from '../enum';
 
-export interface GithubUsersResponse {
+export interface GithubUser {
   login: string;
   id: number;
   nodeID: string;

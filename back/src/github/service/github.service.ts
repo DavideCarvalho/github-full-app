@@ -1,9 +1,10 @@
-import { HttpService } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
-import { GithubUsersResponse } from '../dto';
+import { GithubUser } from '../dto';
 import { GithubIntegration } from '../integration';
-import { GithubRepositoriesResponse } from '../dto/github-user-repositories-response.dto';
+import { GithubRepository } from '../dto/github-user-repositories-response.dto';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class GithubService {
 
   private githubBaseUrl = 'http://api.github.com/';
@@ -14,15 +15,16 @@ export class GithubService {
   constructor(private readonly integration: GithubIntegration) {
   }
 
-  async getGithubUsers({ since }: { since: number }): Promise<AxiosResponse<GithubUsersResponse[]>> {
-    return this.integration.getGithubUsers({ since });
+  async getGithubUsers({ since }: { since: number }): Promise<GithubUser[]> {
+    const githubUsers = await this.integration.getGithubUsers({ since });
+    return githubUsers.data;
   }
 
-  async getUserDetails({ username }: { username: string }): Promise<AxiosResponse<GithubUsersResponse[]>> {
+  async getUserDetails({ username }: { username: string }): Promise<AxiosResponse<GithubUser[]>> {
     return this.integration.getUserDetails({ username });
   }
 
-  async getUserRepositories({ username }: { username: string }): Promise<AxiosResponse<GithubRepositoriesResponse[]>> {
+  async getUserRepositories({ username }: { username: string }): Promise<AxiosResponse<GithubRepository[]>> {
     return this.integration.getUserRepositories({ username });
   }
 }

@@ -2,7 +2,7 @@ import { License } from './licente.dto';
 import { Owner } from './owner';
 import { DefaultBranch } from '../enum';
 
-export interface GithubRepositoriesResponse {
+export interface GithubRepository {
   id: number;
   nodeID: string;
   name: string;
