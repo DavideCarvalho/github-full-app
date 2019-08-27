@@ -3,6 +3,7 @@ import { GithubUser } from '../dto';
 import { GithubIntegration } from '../integration';
 import { GithubRepository } from '../dto/github-user-repositories-response.dto';
 import { Injectable } from '@nestjs/common';
+import {GithubProfile} from '../dto/github-profile-response.dto';
 
 @Injectable()
 export class GithubService {
@@ -20,11 +21,13 @@ export class GithubService {
     return githubUsers.data;
   }
 
-  async getUserDetails({ username }: { username: string }): Promise<AxiosResponse<GithubUser[]>> {
-    return this.integration.getUserDetails({ username });
+  async getUserDetails({ username }: { username: string }): Promise<GithubProfile> {
+    const userDetails = await this.integration.getUserDetails({ username });
+    return userDetails.data;
   }
 
-  async getUserRepositories({ username }: { username: string }): Promise<AxiosResponse<GithubRepository[]>> {
-    return this.integration.getUserRepositories({ username });
+  async getUserRepositories({ username }: { username: string }): Promise<GithubRepository[]> {
+    const userRepositories = await this.integration.getUserRepositories({ username });
+    return userRepositories.data;
   }
 }

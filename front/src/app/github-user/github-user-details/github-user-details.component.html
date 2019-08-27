@@ -1,14 +1,26 @@
-<div *ngIf="(githubUser$ | async)" class="container">
-  <div class="row">
-    <h1>User Informations</h1>
-    <div class="col">
-      <img class="rounded" [src]="(githubUser$ | async).avatar_url">
+<div *ngIf="!(githubUser$ | async)">
+  <h3 class="text-center">User information</h3>
+  <div class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
     </div>
-    <div class="col">
-      <label>Username</label>
-      <p>{{(githubUser$ | async).login}}</p>
-      <label>Username</label>
-      <p>{{(githubUser$ | async)}}</p>
+  </div>
+</div>
+<div *ngIf="(githubUser$ | async)" class="panel panel-default">
+  <div>
+    <h3 class="text-center">{{(githubUser$ | async).name}}</h3>
+  </div>
+  <div>
+    <div class="row">
+      <div class="col-md-4">
+        <img class="img-thumbnail" src="{{(githubUser$ | async).avatar_url}}">
+        <a class="btn btn-default btn-block" target="_blank" href="{{(githubUser$ | async).html_url}}">View Profile</a>
+      </div>
+      <div class="col-md-8">
+        <app-profile-stats [githubUser]="(githubUser$ | async)"></app-profile-stats>
+        <br>
+        <app-profile-personal-information [githubUser]="(githubUser$ | async)"></app-profile-personal-information>
+      </div>
     </div>
   </div>
 </div>

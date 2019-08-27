@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Store, StoreConfig} from '@datorama/akita';
-import {GithubUser} from '../../../github-users/github-users-list/types/github-user';
+import {GithubProfile} from '../types/github-profile';
 
 export interface GithubUserDetailsState {
-  githubUser: GithubUser;
+  githubUser: GithubProfile;
 }
 
 export function createInitialState(): GithubUserDetailsState {
@@ -13,7 +13,7 @@ export function createInitialState(): GithubUserDetailsState {
 }
 
 @Injectable({providedIn: 'root'})
-@StoreConfig({name: 'github-user-details'})
+@StoreConfig({name: 'github-user-details', resettable: true})
 export class GithubUserDetailsStore extends Store<GithubUserDetailsState> {
 
   constructor() {

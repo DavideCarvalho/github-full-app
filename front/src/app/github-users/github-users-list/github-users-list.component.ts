@@ -44,7 +44,6 @@ export class GithubUsersListComponent implements OnInit {
   }
 
   goToUserDetails(githubUser: GithubUser) {
-    this.githubUserDetailsService.setGithubUserByUsername({githubUser});
     this.router.navigate([`${githubUser.login}/details`]);
   }
 }

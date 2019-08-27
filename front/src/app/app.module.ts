@@ -12,6 +12,10 @@ import {environment} from '../environments/environment';
 import {HttpClientModule} from "@angular/common/http";
 import { GithubUserComponent } from './github-user/github-user.component';
 import { GithubUserDetailsComponent } from './github-user/github-user-details/github-user-details.component';
+import { ProfileStatsComponent } from './github-user/github-user-details/profile-stats/profile-stats.component';
+import { ProfilePersonalInformationComponent } from './github-user/github-user-details/profile-personal-information/profile-personal-information.component';
+import { GithubUserRepositoriesComponent } from './github-user/github-user-repositories/github-user-repositories.component';
+import { RepositoryCardComponent } from './github-user/github-user-repositories/repository-card/repository-card.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +24,10 @@ import { GithubUserDetailsComponent } from './github-user/github-user-details/gi
     GithubUsersListComponent,
     GithubUserComponent,
     GithubUserDetailsComponent,
+    ProfileStatsComponent,
+    ProfilePersonalInformationComponent,
+    GithubUserRepositoriesComponent,
+    RepositoryCardComponent,
   ],
   imports: [
     BrowserModule,

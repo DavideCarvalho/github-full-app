@@ -1,7 +1,8 @@
-import { HttpService, Injectable } from '@nestjs/common';
-import { AxiosResponse } from 'axios';
-import { GithubUser } from '../dto';
-import { GithubRepository } from '../dto/github-user-repositories-response.dto';
+import {HttpService, Injectable} from '@nestjs/common';
+import {AxiosResponse, AxiosError} from 'axios';
+import {GithubUser} from '../dto';
+import {GithubRepository} from '../dto/github-user-repositories-response.dto';
+import {GithubProfile} from '../dto/github-profile-response.dto';
 
 @Injectable()
 export class GithubIntegration {
@@ -14,7 +15,7 @@ export class GithubIntegration {
   constructor(private readonly http: HttpService) {
   }
 
-  async getGithubUsers({ since }: { since: number }): Promise<AxiosResponse<GithubUser[]>> {
+  async getGithubUsers({since}: { since: number }): Promise<AxiosResponse<GithubUser[]>> {
     return this.http.get<GithubUser[]>(`${this.githubBaseUrl}users?since=${since}&per_page=10`, {
       params: {
         since,
@@ -22,11 +23,11 @@ export class GithubIntegration {
     }).toPromise();
   }
 
-  async getUserDetails({ username }: { username: string }) {
-    return this.http.get<GithubUser[]>(`${this.githubBaseUrl}users/${username}${this.githubCredentials}`).toPromise();
+  async getUserDetails({username}: { username: string }) {
+    return this.http.get<GithubProfile>(`${this.githubBaseUrl}users/${username}?${this.githubCredentials}`).toPromise();
   }
 
-  async getUserRepositories({ username }: { username: string }): Promise<AxiosResponse<GithubRepository[]>> {
-    return this.http.get<GithubRepository[]>(`${this.githubBaseUrl}users/${username}/repos${this.githubCredentials}`).toPromise();
+  async getUserRepositories({username}: { username: string }): Promise<AxiosResponse<GithubRepository[]>> {
+    return this.http.get<GithubRepository[]>(`${this.githubBaseUrl}users/${username}/repos?q${this.githubCredentials}`).toPromise();
   }
 }

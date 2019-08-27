@@ -1,0 +1,18 @@
+<div class="panel panel-default">
+  <div>
+    <h3 class="text-center">User Repos</h3>
+  </div>
+  <div class="panel-body">
+    <div *ngIf="!(repositories$ | async).length" class="d-flex justify-content-center">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <div *ngFor="let repository of repositories$ | async">
+      <div class="row">
+        <app-repository-card [repository]="repository"></app-repository-card>
+      </div>
+      <hr>
+    </div>
+  </div>
+</div>
