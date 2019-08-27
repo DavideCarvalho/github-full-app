@@ -1,1 +1,27 @@
-<p>github-users-list works!</p>
+<h1 class="text-center">Github Users</h1>
+<table class="table table-hover table-striped">
+  <thead>
+  <tr>
+    <th scope="col">
+      <div *ngIf="loading$ | async">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <span class="sr-only">Loading...</span>
+      </div>
+      id
+    </th>
+    <th scope="col">login</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr class="cursor-pointer" *ngFor="let githubUser of githubUsers$ | async" (click)="goToUserDetails(githubUser)">
+    <td>{{githubUser.id}}</td>
+    <td>{{githubUser.login}}</td>
+  </tr>
+  </tbody>
+</table>
+<div>
+  <button (click)="goToPreviousPage()" *ngIf="(currentPage$ | async) > 0" type="button"
+          class="float-left btn btn-outline-primary">Previous page
+  </button>
+  <button (click)="goToNextPage()" type="button" class="float-right btn btn-outline-primary">Next page</button>
+</div>

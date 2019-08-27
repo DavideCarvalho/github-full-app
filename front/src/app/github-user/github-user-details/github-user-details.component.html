@@ -1,0 +1,14 @@
+<div *ngIf="(githubUser$ | async)" class="container">
+  <div class="row">
+    <h1>User Informations</h1>
+    <div class="col">
+      <img class="rounded" [src]="(githubUser$ | async).avatar_url">
+    </div>
+    <div class="col">
+      <label>Username</label>
+      <p>{{(githubUser$ | async).login}}</p>
+      <label>Username</label>
+      <p>{{(githubUser$ | async)}}</p>
+    </div>
+  </div>
+</div>

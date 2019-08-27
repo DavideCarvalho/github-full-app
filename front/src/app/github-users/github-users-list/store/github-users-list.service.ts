@@ -1,22 +1,50 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {GithubUsersListStore} from './github-users-list.store';
-import {tap} from 'rxjs/operators';
+import {catchError, take, tap} from 'rxjs/operators';
 import {GithubUser} from '../types/github-user';
+import {environment} from '../../../../environments/environment';
+import {of} from "rxjs";
 
 @Injectable({providedIn: 'root'})
 export class GithubUsersListService {
-
-  private clientId = '82b76b8c9e720b934b35';
-  private clientSecret = '682f8bd49900aef92ab07608fc9cd52dbd085216';
+  private api = `${environment.apiUrl}/api/users`;
 
   constructor(private githubUsersListStore: GithubUsersListStore,
               private http: HttpClient) {
   }
 
   initGithubUsers() {
-    return this.http.get<GithubUser[]>('https://api.com').pipe(tap(githubUsers => {
-      this.githubUsersListStore.update((state) => ({...state, githubUsers}));
-    }));
+    this.githubUsersListStore.setLoading(true);
+    this.http.get<GithubUser[]>(
+      `${this.api}?since=0`).pipe(
+      take(1),
+      tap(githubUsers => {
+        this.githubUsersListStore.update((state) => ({...state, githubUsers, currentPage: 0}));
+      }),
+      tap(() => this.githubUsersListStore.setLoading(false)),
+      catchError((err: HttpErrorResponse) => {
+        this.githubUsersListStore.setLoading(false);
+        this.githubUsersListStore.setError<HttpErrorResponse>(err);
+        return of('');
+      })
+    ).subscribe();
+  }
+
+  goToPage({page}: { page: number }) {
+    this.githubUsersListStore.setLoading(true);
+    this.http.get<GithubUser[]>(
+      `${this.api}?since=${page * 10}`).pipe(
+      take(1),
+      tap(githubUsers => {
+        this.githubUsersListStore.update((state) => ({...state, githubUsers, currentPage: page}));
+      }),
+      tap(() => this.githubUsersListStore.setLoading(false)),
+      catchError((err: HttpErrorResponse) => {
+        this.githubUsersListStore.setLoading(false);
+        this.githubUsersListStore.setError<HttpErrorResponse>(err);
+        return of('');
+      }),
+    ).subscribe();
   }
 }

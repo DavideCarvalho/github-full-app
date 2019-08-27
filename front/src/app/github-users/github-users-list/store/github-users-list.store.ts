@@ -4,11 +4,13 @@ import {GithubUser} from '../types/github-user';
 
 export interface GithubUsersListState {
    githubUsers: GithubUser[];
+   currentPage: number;
 }
 
 export function createInitialState(): GithubUsersListState {
   return {
-    githubUsers: []
+    githubUsers: [],
+    currentPage: 0,
   };
 }
 
